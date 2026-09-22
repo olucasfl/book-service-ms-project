@@ -1,33 +1,50 @@
 package br.com.lucas.book_service.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity(name = "book")
 public class Book implements Serializable {
 
-    private static final long serialVerionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 180)
     private String author;
+
+    @Column(nullable = false, length = 250)
     private String title;
+
+    @Column(name = "launch_date", nullable = false)
     private Date lauchDate;
+
+    @Column(nullable = false)
     private Double price;
+
+    @Transient
     private String currency;
+
+    @Transient
+    private String environment;
 
     public Book() {
     }
 
-    public Book(Long id, String currency, Double price, Date lauchDate, String title, String author) {
+    public Book(Long id, String currency, Double price, Date lauchDate, String title, String author, String environment) {
         this.id = id;
         this.currency = currency;
         this.price = price;
         this.lauchDate = lauchDate;
         this.title = title;
         this.author = author;
-    }
-
-    public Book(long l, String nigelPoulton, String dockerDeepDive, Date date, double v, String brl, String port) {
+        this.environment = environment;
     }
 
     public Long getId() {
@@ -78,15 +95,23 @@ public class Book implements Serializable {
         this.currency = currency;
     }
 
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(lauchDate, book.lauchDate) && Objects.equals(price, book.price) && Objects.equals(currency, book.currency);
+        return Objects.equals(id, book.id) && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(lauchDate, book.lauchDate) && Objects.equals(price, book.price) && Objects.equals(currency, book.currency) && Objects.equals(environment, book.environment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, title, lauchDate, price, currency);
+        return Objects.hash(id, author, title, lauchDate, price, currency, environment);
     }
 }
